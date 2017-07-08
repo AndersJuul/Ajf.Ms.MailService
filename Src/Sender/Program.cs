@@ -62,8 +62,8 @@ namespace Ajf.Ms.MailService.Sender
                     x.RunAsLocalSystem(); //6
 
                     x.SetDescription(""); //7
-                    x.SetDisplayName("AJF.SendFolderContents"); //8
-                    x.SetServiceName("AJF.SendFolderContents"); //9
+                    x.SetDisplayName(""); //8
+                    x.SetServiceName(""); //9
                 }); //10        }
             }
             catch (Exception ex)
