@@ -61,9 +61,9 @@ namespace Ajf.Ms.MailService.Sender
                     });
                     x.RunAsLocalSystem(); //6
 
-                    x.SetDescription(""); //7
-                    x.SetDisplayName(""); //8
-                    x.SetServiceName(""); //9
+                    x.SetDescription(appSettings.Description); //7
+                    x.SetDisplayName(appSettings.DisplayName); //8
+                    x.SetServiceName(appSettings.ServiceName); //9
                 }); //10        }
             }
             catch (Exception ex)
