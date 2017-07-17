@@ -10,6 +10,7 @@ namespace Ajf.Ms.MailService.Sender
     {
         private readonly IAppSettings _appSettings;
         private BackgroundWorker _backgroundWorker;
+        private IModel _model;
 
         public Worker(IAppSettings appSettings)
         {
@@ -68,13 +69,13 @@ namespace Ajf.Ms.MailService.Sender
             };
 
             var connection = connectioFa.CreateConnection();
-            var model = connection.CreateModel();
+            _model = connection.CreateModel();
 
-            model.QueueDeclare(_appSettings.QueueName, true, false, false);
+            _model.QueueDeclare(_appSettings.QueueName, true, false, false);
 
-            model.ExchangeDeclare(_appSettings.ExchangeName, ExchangeType.Topic);
+            _model.ExchangeDeclare(_appSettings.ExchangeName, ExchangeType.Topic);
 
-            model.QueueBind(_appSettings.QueueName, _appSettings.ExchangeName, "");
+            _model.QueueBind(_appSettings.QueueName, _appSettings.ExchangeName, "");
 
             Log.Logger.Information("Done setting up queue and exchange...");
 
@@ -96,7 +97,17 @@ namespace Ajf.Ms.MailService.Sender
                 }
 
                 Thread.Sleep(1 * 1000);
-
+                bool noAck = false;
+                BasicGetResult result = _model.BasicGet(_appSettings.QueueName, noAck);
+                if (result == null)
+                {
+                    // No message available at this time.
+                }
+                else
+                {
+                    IBasicProperties props = result.BasicProperties;
+                    byte[] body = result.Body;
+                }
                 //if (_appSettings.Minutes.Contains(DateTime.Now.Minute))
                 //{
                 //    if (_appSettings.Hours.Contains(DateTime.Now.Hour))
