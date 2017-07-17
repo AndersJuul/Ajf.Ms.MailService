@@ -3,12 +3,12 @@ using Ajf.Nuget.Logging;
 
 namespace Ajf.Ms.MailService.Web
 {
-    public class AppSettings : SettingsFromConfigFile, IAppSettings
+    public class AppSettings : WebSettingsFromConfigFile, IAppSettings
     {
         public AppSettings()
         {
-            QueueName = $"{Environment}.{SuiteName}.{ComponentName}.MailsToSend";
-            ExchangeName = $"{Environment}.{SuiteName}.{ComponentName}.MailsToSend";
+            QueueName = $"{Environment}.{SuiteName}.MailsToSend";
+            ExchangeName = "";// $"{Environment}.{SuiteName}.MailsToSend";
         }
 
         public string ExchangeName { get; set; }

@@ -14,23 +14,23 @@ namespace Ajf.Ms.MailService.Web
 
             Log.Logger.Information("Starting...");
 
-            var connectioFa = new ConnectionFactory
-            {
-                HostName = "ajf-elastic-01",
-                UserName = "anders",
-                Password = "21Bananer"
-            };
+            //var connectioFa = new ConnectionFactory
+            //{
+            //    HostName = "ajf-elastic-01",
+            //    UserName = "anders",
+            //    Password = "21Bananer"
+            //};
 
-            var connection = connectioFa.CreateConnection();
-            var model = connection.CreateModel();
+            //var connection = connectioFa.CreateConnection();
+            //var model = connection.CreateModel();
 
-            model.QueueDeclare(appSettings.QueueName, true, false, false);
+            //model.QueueDeclare(appSettings.QueueName, true, false, false);
 
-            model.ExchangeDeclare(appSettings.ExchangeName, ExchangeType.Topic);
+            //model.ExchangeDeclare(appSettings.ExchangeName, ExchangeType.Topic);
 
-            model.QueueBind(appSettings.QueueName, appSettings.ExchangeName, "");
+            //model.QueueBind(appSettings.QueueName, appSettings.ExchangeName, "");
 
-            Log.Logger.Information("Done setting up queue and exchange...");
+            //Log.Logger.Information("Done setting up queue and exchange...");
 
             GlobalConfiguration.Configure(WebApiConfig.Register);
         }

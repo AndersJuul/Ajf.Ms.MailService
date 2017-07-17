@@ -2,5 +2,7 @@
 {
     public interface IAppSettings
     {
+        string ExchangeName { get; set; }
+        string QueueName { get; set; }
     }
 }

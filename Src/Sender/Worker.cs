@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.Threading;
+using RabbitMQ.Client;
 using Serilog;
 
 namespace Ajf.Ms.MailService.Sender
@@ -47,6 +48,7 @@ namespace Ajf.Ms.MailService.Sender
 
             try
             {
+                SetupRabbit();
                 DoWorkInternal(sender);
             }
             catch (Exception ex)
@@ -54,6 +56,28 @@ namespace Ajf.Ms.MailService.Sender
                 Log.Error(ex, "During do work", new object[0]);
                 throw;
             }
+        }
+
+        private void SetupRabbit()
+        {
+            var connectioFa = new ConnectionFactory
+            {
+                HostName = "ajf-elastic-01",
+                UserName = "anders",
+                Password = "21Bananer"
+            };
+
+            var connection = connectioFa.CreateConnection();
+            var model = connection.CreateModel();
+
+            model.QueueDeclare(_appSettings.QueueName, true, false, false);
+
+            model.ExchangeDeclare(_appSettings.ExchangeName, ExchangeType.Topic);
+
+            model.QueueBind(_appSettings.QueueName, _appSettings.ExchangeName, "");
+
+            Log.Logger.Information("Done setting up queue and exchange...");
+
         }
 
         private void DoWorkInternal(object sender)
